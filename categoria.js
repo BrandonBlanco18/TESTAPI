@@ -1,12 +1,19 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Crear el esquema de Categoria
-const categoriaSchema = new Schema({
-    nombre: { type: String, required: true }
+// Verificar si el modelo ya está definido
+const categoriaSchema = new mongoose.Schema({
+    nombre: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    descripcion: {
+        type: String
+    }
 });
 
-// Crear el modelo de Categoria
-const Categoria = mongoose.model('Categoria', categoriaSchema);
+// Si el modelo 'Categoria' ya existe, usarlo, si no, crearlo
+const Categoria = mongoose.models.Categoria || mongoose.model('Categoria', categoriaSchema);
 
 module.exports = Categoria;

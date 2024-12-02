@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Inventarios</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Sistema de Inventarios</h1>
+    </header>
+    
+    <main class="container">
+        <form id="inventoryForm" class="form">
+            <div class="form-group">
+                <label for="productName">Producto:</label>
+                <input type="text" id="productName" placeholder="Nombre del producto" required>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Cantidad:</label>
+                <input type="number" id="quantity" placeholder="Cantidad" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Precio:</label>
+                <input type="number" id="price" step="0.01" placeholder="Precio en $" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Agregar Producto</button>
+        </form>
+
+        <table id="inventoryTable" class="inventory-table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Los productos se agregarán aquí -->
+            </tbody>
+        </table>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+// Seleccionar los elementos del DOM
+const form = document.getElementById('inventoryForm');
+const tableBody = document.querySelector('#inventoryTable tbody');
+
+// Escuchar el evento de envío del formulario
+form.addEventListener('submit', (e) => {
+    e.preventDefault(); // Prevenir el envío del formulario
+
+    // Obtener los valores del formulario
+    const productName = document.getElementById('productName').value;
+    const quantity = document.getElementById('quantity').value;
+    const price = document.getElementById('price').value;
+
+    // Agregar el producto a la tabla
+    addProductToTable(productName, quantity, price);
+
+    // Limpiar el formulario
+    form.reset();
+});
+
+// Función para agregar un producto a la tabla
+const addProductToTable = (name, quantity, price) => {
+    const row = document.createElement('tr');
+
+    row.innerHTML = `
+        <td>${name}</td>
+        <td>${quantity}</td>
+        <td>${parseFloat(price).toFixed(2)}</td>
+        <td><button class="delete-btn">Eliminar</button></td>
+    `;
+
+    // Añadir evento al botón de eliminar
+    row.querySelector('.delete-btn').addEventListener('click', () => {
+        row.remove();
+    });
+
+    // Añadir la nueva fila al cuerpo de la tabla
+    tableBody.appendChild(row);
+};
